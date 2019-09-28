@@ -7,16 +7,22 @@
         </div>
         <div class="comment__content">
           <ul class="comment-list">
-            <li>
-              <span></span>
+            <li v-for="(item,index) in comments" :key="index">
+              <span>{{item}}</span>
             </li>
           </ul>
           <div class="no-comments">
-            <p>No comments added yet</p>
+            <p v-if="!comments.length">There are no comments yet.</p>
           </div>
         </div>
         <div class="comment-box">
-          <textarea class="form-control" rows="3" placeholder="Write a comment"></textarea>
+          <textarea
+            class="form-control"
+            rows="3"
+            placeholder="Write a comment"
+            v-model="comment"
+            @keyup.enter="addcomment"
+          ></textarea>
         </div>
       </div>
     </div>
@@ -25,7 +31,21 @@
 
 <script>
 export default {
-  name: "PhotoComment"
+  name: "PhotoComment",
+
+  methods: {
+    addcomment() {
+      this.comments.push(this.comment);
+      this.comment = "";
+    }
+  },
+
+  data() {
+    return {
+      comment: "",
+      comments: []
+    };
+  }
 };
 </script>
 
